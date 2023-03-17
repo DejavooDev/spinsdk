@@ -1,0 +1,44 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+VisualStudioVersion = 12.0.0.0
+MinimumVisualStudioVersion = 10.0.0.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dejavoo.Spin.Sdk.Client", "src\Dejavoo.Spin.Sdk.Client\Dejavoo.Spin.Sdk.Client.csproj", "{D6E7EAE6-7356-496E-95CA-57741A4E2B61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dejavoo.Spin.Sdk", "src\Dejavoo.Spin.Sdk\Dejavoo.Spin.Sdk.csproj", "{62ECB299-3AD4-424B-8A3F-AF0A81B8CFB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{596DA9D8-B4E1-473A-BB3C-01E417A9B091}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C43D99D7-B3F5-440D-BC26-2652E759DD10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4BC27C70-DE9C-43DA-B1C5-57D1CAB2C2EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dejavoo.Spin.Sdk.UnitTests", "tests\Dejavoo.Spin.Sdk.UnitTests\Dejavoo.Spin.Sdk.UnitTests.csproj", "{AB8C6580-108C-46FD-955D-96343541B809}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6E7EAE6-7356-496E-95CA-57741A4E2B61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E7EAE6-7356-496E-95CA-57741A4E2B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E7EAE6-7356-496E-95CA-57741A4E2B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E7EAE6-7356-496E-95CA-57741A4E2B61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62ECB299-3AD4-424B-8A3F-AF0A81B8CFB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62ECB299-3AD4-424B-8A3F-AF0A81B8CFB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62ECB299-3AD4-424B-8A3F-AF0A81B8CFB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62ECB299-3AD4-424B-8A3F-AF0A81B8CFB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB8C6580-108C-46FD-955D-96343541B809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8C6580-108C-46FD-955D-96343541B809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8C6580-108C-46FD-955D-96343541B809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8C6580-108C-46FD-955D-96343541B809}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{62ECB299-3AD4-424B-8A3F-AF0A81B8CFB4} = {596DA9D8-B4E1-473A-BB3C-01E417A9B091}
+		{D6E7EAE6-7356-496E-95CA-57741A4E2B61} = {596DA9D8-B4E1-473A-BB3C-01E417A9B091}
+		{AB8C6580-108C-46FD-955D-96343541B809} = {4BC27C70-DE9C-43DA-B1C5-57D1CAB2C2EE}
+	EndGlobalSection
+EndGlobal
