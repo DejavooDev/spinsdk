@@ -14,6 +14,7 @@
         <RepositoryType>git</RepositoryType>
         <Description>SDK to integrate with dejavoo spin</Description>
         <Authors>Dejavoo</Authors>
+        <Copyright>Dejavoo</Copyright>
     </PropertyGroup>
     
     <ItemGroup>

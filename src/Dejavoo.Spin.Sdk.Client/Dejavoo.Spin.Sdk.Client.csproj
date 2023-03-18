@@ -15,6 +15,7 @@
         <RepositoryType>git</RepositoryType>
         <Description>Http integration client for spin api</Description>
         <Authors>Dejavoo</Authors>
+        <Copyright>Dejavoo</Copyright>
     </PropertyGroup>
     
     <ItemGroup>

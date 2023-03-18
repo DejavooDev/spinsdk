@@ -66,7 +66,7 @@ namespace Dejavoo.Spin.Sdk
             apiMethod switch
             {
                 "RegisterSale" => null,
-                _ => throw new ArgumentOutOfRangeException(nameof(apiMethod))
+                _ => throw new ArgumentOutOfRangeException(nameof(apiMethod)),
             };
 
         private static IAsyncPolicy CreateRetryPolicy() =>
