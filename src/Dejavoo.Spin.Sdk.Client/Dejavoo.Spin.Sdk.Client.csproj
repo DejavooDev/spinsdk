@@ -8,6 +8,15 @@
         <LangVersion>9</LangVersion>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <!-- nuget -->
+        <IsPackable>true</IsPackable>
+        <RepositoryUrl>https://github.com/DejavooDev/spinsdk</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Description>Http integration client for spin api</Description>
+        <Authors>Dejavoo</Authors>
+    </PropertyGroup>
+    
     <ItemGroup>
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />

@@ -7,6 +7,15 @@
         <LangVersion>9</LangVersion>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <!-- nuget -->
+        <IsPackable>true</IsPackable>
+        <RepositoryUrl>https://github.com/DejavooDev/spinsdk</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Description>SDK to integrate with dejavoo spin</Description>
+        <Authors>Dejavoo</Authors>
+    </PropertyGroup>
+    
     <ItemGroup>
       <ProjectReference Include="..\Dejavoo.Spin.Sdk.Client\Dejavoo.Spin.Sdk.Client.csproj" />
     </ItemGroup>
