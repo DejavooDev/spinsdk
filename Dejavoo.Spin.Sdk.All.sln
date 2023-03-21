@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C43D99D7-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4BC27C70-DE9C-43DA-B1C5-57D1CAB2C2EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dejavoo.Spin.Sdk.UnitTests", "tests\Dejavoo.Spin.Sdk.UnitTests\Dejavoo.Spin.Sdk.UnitTests.csproj", "{AB8C6580-108C-46FD-955D-96343541B809}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dejavoo.Spin.Sdk.Tests", "tests\Dejavoo.Spin.Sdk.Tests\Dejavoo.Spin.Sdk.Tests.csproj", "{AB8C6580-108C-46FD-955D-96343541B809}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
