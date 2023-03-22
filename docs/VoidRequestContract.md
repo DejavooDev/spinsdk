@@ -1,4 +1,4 @@
-# IO.Swagger.Model.VoidRequestContract
+# Dejavoo.Spin.Sdk.Client.Model.VoidRequestContract
 ## Properties
 
 Name | Type | Description | Notes

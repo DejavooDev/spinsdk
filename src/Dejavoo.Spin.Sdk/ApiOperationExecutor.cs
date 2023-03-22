@@ -52,10 +52,11 @@ namespace Dejavoo.Spin.Sdk
             return capture.Result;
         }
 
-        public static IOperationExecutor Create(string authKey, string tpn)
+        public static IOperationExecutor Create(string baseUri, string authKey, string tpn)
         {
             var config = Configuration.Default;
             {
+                config.BasePath = baseUri;
             }
 
             var registerApi = new RegisterApi(config);

@@ -5,12 +5,14 @@ namespace Dejavoo.Spin.Sdk
 {
     public class ExecutorException : Exception
     {
-        internal ExecutorException(string message, bool isRecoverable)
-            : base(message)
+        internal ExecutorException(ErrorCode code, bool isRecoverable)
         {
+            Code = code;
             IsRecoverable = isRecoverable;
         }
 
+        public ErrorCode Code { get; }
+        
         public bool IsRecoverable { get; }
     }
 

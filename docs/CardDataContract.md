@@ -1,4 +1,4 @@
-# IO.Swagger.Model.CardDataContract
+# Dejavoo.Spin.Sdk.Client.Model.CardDataContract
 ## Properties
 
 Name | Type | Description | Notes

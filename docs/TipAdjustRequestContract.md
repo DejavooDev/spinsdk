@@ -1,4 +1,4 @@
-# IO.Swagger.Model.TipAdjustRequestContract
+# Dejavoo.Spin.Sdk.Client.Model.TipAdjustRequestContract
 ## Properties
 
 Name | Type | Description | Notes

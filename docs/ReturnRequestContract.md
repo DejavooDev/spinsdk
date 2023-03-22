@@ -1,4 +1,4 @@
-# IO.Swagger.Model.ReturnRequestContract
+# Dejavoo.Spin.Sdk.Client.Model.ReturnRequestContract
 ## Properties
 
 Name | Type | Description | Notes

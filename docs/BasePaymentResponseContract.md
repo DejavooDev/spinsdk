@@ -1,4 +1,4 @@
-# IO.Swagger.Model.BasePaymentResponseContract
+# Dejavoo.Spin.Sdk.Client.Model.BasePaymentResponseContract
 ## Properties
 
 Name | Type | Description | Notes

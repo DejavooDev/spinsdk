@@ -1,4 +1,4 @@
-# IO.Swagger.Model.ReceiptContract
+# Dejavoo.Spin.Sdk.Client.Model.ReceiptContract
 ## Properties
 
 Name | Type | Description | Notes

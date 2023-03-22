@@ -1,4 +1,4 @@
-# IO.Swagger.Model.PaymentAmountsContract
+# Dejavoo.Spin.Sdk.Client.Model.PaymentAmountsContract
 ## Properties
 
 Name | Type | Description | Notes

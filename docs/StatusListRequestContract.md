@@ -1,4 +1,4 @@
-# IO.Swagger.Model.StatusListRequestContract
+# Dejavoo.Spin.Sdk.Client.Model.StatusListRequestContract
 ## Properties
 
 Name | Type | Description | Notes
