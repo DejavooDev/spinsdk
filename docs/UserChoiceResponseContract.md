@@ -1,4 +1,4 @@
-# IO.Swagger.Model.UserChoiceResponseContract
+# Dejavoo.Spin.Sdk.Client.Model.UserChoiceResponseContract
 ## Properties
 
 Name | Type | Description | Notes

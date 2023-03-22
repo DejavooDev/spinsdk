@@ -1,4 +1,4 @@
-# IO.Swagger.Model.PrinterRequestContract
+# Dejavoo.Spin.Sdk.Client.Model.PrinterRequestContract
 ## Properties
 
 Name | Type | Description | Notes

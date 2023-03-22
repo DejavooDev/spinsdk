@@ -1,4 +1,4 @@
-# IO.Swagger.Model.SettleRequestContract
+# Dejavoo.Spin.Sdk.Client.Model.SettleRequestContract
 ## Properties
 
 Name | Type | Description | Notes

@@ -5,6 +5,6 @@ namespace Dejavoo.Spin.Sdk
 {
     public interface IOperationExecutor
     {
-        Task<Sale.SaleResponse> Execute(Sale sale);
+        Task<SaleResponse> Execute(Sale sale);
     }
 }

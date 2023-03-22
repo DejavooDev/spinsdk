@@ -1,4 +1,4 @@
-# IO.Swagger.Model.SaleRequestContract
+# Dejavoo.Spin.Sdk.Client.Model.SaleRequestContract
 ## Properties
 
 Name | Type | Description | Notes

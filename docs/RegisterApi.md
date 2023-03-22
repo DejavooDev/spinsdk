@@ -1,4 +1,4 @@
-# IO.Swagger.Api.RegisterApi
+# Dejavoo.Spin.Sdk.Client.Api.RegisterApi
 
 All URIs are relative to *https://test.spinpos.net/spin*
 
@@ -25,9 +25,9 @@ Method | HTTP request | Description
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -82,9 +82,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -139,9 +139,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -196,9 +196,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -253,9 +253,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -310,9 +310,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -367,9 +367,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -424,9 +424,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -481,9 +481,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {
@@ -538,9 +538,9 @@ No authorization required
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Dejavoo.Spin.Sdk.Client.Api;
+using Dejavoo.Spin.Sdk.Client.Client;
+using Dejavoo.Spin.Sdk.Client.Model;
 
 namespace Example
 {

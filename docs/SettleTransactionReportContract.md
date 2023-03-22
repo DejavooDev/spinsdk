@@ -1,4 +1,4 @@
-# IO.Swagger.Model.SettleTransactionReportContract
+# Dejavoo.Spin.Sdk.Client.Model.SettleTransactionReportContract
 ## Properties
 
 Name | Type | Description | Notes

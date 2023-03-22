@@ -1,4 +1,4 @@
-# IO.Swagger.Model.GeneralResponseContract
+# Dejavoo.Spin.Sdk.Client.Model.GeneralResponseContract
 ## Properties
 
 Name | Type | Description | Notes
