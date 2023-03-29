@@ -2,7 +2,9 @@ namespace Dejavoo.Spin.Sdk
 {
     public sealed class Spin
     {
-        public static readonly Spin V2 = new("https://test.spinpos.net/spin");
+        public static readonly Spin V2 = new("https://spinpos.net/spin");
+        
+        public static readonly Spin V2Test = new("https://test.spinpos.net/spin");
         
         private readonly string _baseUri;
 

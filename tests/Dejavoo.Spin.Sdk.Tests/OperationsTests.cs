@@ -10,7 +10,7 @@ namespace Dejavoo.Spin.Sdk.UnitTests
         [Fact]
         public async Task PlainSale_ShouldSucceed()
         {
-            IOperationExecutor executor = Spin.V2.CreateExecutor("your_tpn_id", "your_api_key");
+            IOperationExecutor executor = Spin.V2Test.CreateExecutor("your_tpn_id", "your_api_key");
 
             IOperation<SaleResponse> operation = Operations.Sale(1.0f);
 
