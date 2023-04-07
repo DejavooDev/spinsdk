@@ -26,7 +26,7 @@ namespace Dejavoo.Spin.Sdk.Client.Model
         /// <summary>
         ///     Defines Type
         /// </summary>
-        [System.Text.Json.Serialization.JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum TypeEnum
         {
             /// <summary>

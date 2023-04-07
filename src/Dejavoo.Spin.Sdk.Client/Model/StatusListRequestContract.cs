@@ -26,7 +26,7 @@ namespace Dejavoo.Spin.Sdk.Client.Model
         /// <summary>
         ///     Defines PaymentType
         /// </summary>
-        [System.Text.Json.Serialization.JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum PaymentTypeEnum
         {
             /// <summary>

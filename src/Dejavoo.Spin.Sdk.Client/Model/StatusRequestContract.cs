@@ -27,7 +27,7 @@ namespace Dejavoo.Spin.Sdk.Client.Model
         ///     Indicates if any of receipt copies should be returned in response.
         /// </summary>
         /// <value>Indicates if any of receipt copies should be returned in response.</value>
-        [System.Text.Json.Serialization.JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum GetReceiptEnum
         {
             /// <summary>
@@ -55,7 +55,7 @@ namespace Dejavoo.Spin.Sdk.Client.Model
         ///     Indicates electronic data capture (EDC) type.
         /// </summary>
         /// <value>Indicates electronic data capture (EDC) type.</value>
-        [System.Text.Json.Serialization.JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum PaymentTypeEnum
         {
             /// <summary>
@@ -98,7 +98,7 @@ namespace Dejavoo.Spin.Sdk.Client.Model
         ///     Indicates if any of receipt copies should be printed after the transaction.
         /// </summary>
         /// <value>Indicates if any of receipt copies should be printed after the transaction.</value>
-        [System.Text.Json.Serialization.JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum PrintReceiptEnum
         {
             /// <summary>

@@ -27,7 +27,7 @@ namespace Dejavoo.Spin.Sdk.Client.Model
         ///     Indicates electronic data capture (EDC) type.
         /// </summary>
         /// <value>Indicates electronic data capture (EDC) type.</value>
-        [System.Text.Json.Serialization.JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum PaymentTypeEnum
         {
             /// <summary>
