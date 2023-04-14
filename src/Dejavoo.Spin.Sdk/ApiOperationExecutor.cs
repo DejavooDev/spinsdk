@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Dejavoo.Spin.Sdk.Client.Api;
 using Dejavoo.Spin.Sdk.Client.Client;
@@ -7,6 +10,7 @@ using Dejavoo.Spin.Sdk.Methods;
 using Mapster;
 using Newtonsoft.Json;
 using Polly;
+using Polly.Retry;
 using RestSharp;
 using Void = Dejavoo.Spin.Sdk.Methods.Void;
 
@@ -14,12 +18,16 @@ namespace Dejavoo.Spin.Sdk
 {
     internal sealed class ApiOperationExecutor : IOperationExecutor
     {
+        private static readonly ConcurrentDictionary<Type, IRetryPolicy> Policies = new();
+
+        private const int MaxRetryCount = 3;
+
         private readonly IRegisterApi _api;
 
         private readonly string _authKey;
         private readonly string _tpn;
 
-        private readonly IAsyncPolicy _retryPolicy;
+        private readonly ConcurrentDictionary<string, object> _requestsInFlights;
 
         private ApiOperationExecutor(IRegisterApi api, string authKey, string tpn)
         {
@@ -27,81 +35,133 @@ namespace Dejavoo.Spin.Sdk
             _authKey = authKey;
             _tpn = tpn;
 
-            _retryPolicy = CreateRetryPolicy();
+            _requestsInFlights = new ConcurrentDictionary<string, object>();
         }
 
         public async Task<SaleResponse> Execute(Sale sale)
         {
+            var refId = ReferenceIdFactory();
+
             var saleRequestContract = new SaleRequestContract(
                 sale.Amount,
                 paymentType: (SaleRequestContract.PaymentTypeEnum)sale.PaymentType,
-                referenceId: ReferenceIdFactory(),
+                referenceId: refId,
                 tpn: _tpn,
                 authkey: _authKey);
 
-            BasePaymentResponseContract response = await ResilientExecuteAsync(() => _api.RegisterSaleAsync(saleRequestContract));
+            BasePaymentResponseContract response = await ResilientExecuteAsync(
+                () => _api.RegisterSaleAsync(saleRequestContract),
+                refId);
 
             return response.Adapt<SaleResponse>();
         }
 
         public async Task<VoidResponse> Execute(Void @void)
         {
+            var refId = ReferenceIdFactory();
+
             var voidRequestContract = new VoidRequestContract(
                 @void.Amount,
                 paymentType: (VoidRequestContract.PaymentTypeEnum)@void.PaymentType,
-                referenceId: ReferenceIdFactory(),
+                referenceId: refId,
                 tpn: _tpn,
                 authkey: _authKey);
 
-            BasePaymentResponseContract response = await ResilientExecuteAsync(() => _api.RegisterVoidAsync(voidRequestContract));
+            BasePaymentResponseContract response = await ResilientExecuteAsync(
+                () => _api.RegisterVoidAsync(voidRequestContract),
+                refId);
 
             return response.Adapt<VoidResponse>();
         }
 
         public async Task<SettleResponse> Execute(Settle settle)
         {
+            var refId = ReferenceIdFactory();
+
             var settleRequestContract = new SettleRequestContract(
-                referenceId: ReferenceIdFactory(),
+                referenceId: refId,
                 tpn: _tpn,
                 authkey: _authKey);
 
-            SettleResponseContract response = await ResilientExecuteAsync(() => _api.RegisterSettleAsync(settleRequestContract));
+            SettleResponseContract response = await ResilientExecuteAsync(
+                () => _api.RegisterSettleAsync(settleRequestContract),
+                refId);
 
             return response.Adapt<SettleResponse>();
         }
 
         public async Task<ReturnResponse> Execute(Return @return)
         {
+            var refId = ReferenceIdFactory();
+
             var returnRequestContract = new ReturnRequestContract(
                 @return.Amount,
                 paymentType: (ReturnRequestContract.PaymentTypeEnum)@return.PaymentType,
-                referenceId: ReferenceIdFactory(),
+                referenceId: refId,
                 tpn: _tpn,
                 authkey: _authKey);
 
-            BasePaymentResponseContract response = await ResilientExecuteAsync(() => _api.RegisterReturnAsync(returnRequestContract));
+            BasePaymentResponseContract response = await ResilientExecuteAsync(
+                () => _api.RegisterReturnAsync(returnRequestContract),
+                refId);
 
             return response.Adapt<ReturnResponse>();
         }
 
         public async Task<TipAdjustResponse> Execute(TipAdjust tipAdjust)
         {
+            var refId = ReferenceIdFactory();
+
             var tipAdjustRequestContract = new TipAdjustRequestContract(
                 amount: tipAdjust.Amount,
                 cardLast4: tipAdjust.Last4,
                 paymentType: (TipAdjustRequestContract.PaymentTypeEnum)tipAdjust.PaymentType,
-                referenceId: ReferenceIdFactory(),
+                referenceId: refId,
                 tpn: _tpn,
                 authkey: _authKey);
 
-            BasePaymentResponseContract response = await ResilientExecuteAsync(() => _api.RegisterTipAdjustAsync(tipAdjustRequestContract));
+            BasePaymentResponseContract response = await ResilientExecuteAsync(
+                () => _api.RegisterTipAdjustAsync(tipAdjustRequestContract),
+                refId);
 
             return response.Adapt<TipAdjustResponse>();
         }
 
-        private async Task<T> ResilientExecuteAsync<T>(Func<Task<T>> f)
+        public async Task<StatusResponse> Execute(Status status)
         {
-            PolicyResult<T> capture = await _retryPolicy.ExecuteAndCaptureAsync(f);
+            var statusRequestContract = new StatusRequestContract(
+                paymentType: (StatusRequestContract.PaymentTypeEnum)status.PaymentType,
+                referenceId: status.ReferenceId,
+                tpn: _tpn,
+                authkey: _authKey);
+
+            BasePaymentResponseContract response = await ResilientExecuteAsync(
+                () => _api.RegisterStatusAsync(statusRequestContract),
+                status.ReferenceId);
+
+            return response.Adapt<StatusResponse>();
+        }
+
+        private async Task<T> ResilientExecuteAsync<T>(Func<Task<T>> f, string refId)
+        {
+            Func<Context, Task<T>> TrackedExecuteAsync(Func<Task<T>> func, string referenceId)
+                => _ => _requestsInFlights.TryRemove(referenceId, out var state)
+                    ? Task.FromResult((T)state)
+                    : func();
+
+            PolicyResult<T> capture = await GetOrCreateRetryPolicy<T>().ExecuteAndCaptureAsync(
+                TrackedExecuteAsync(f, refId),
+                new Context(
+                    refId,
+                    new Dictionary<string, object>
+                    {
+                        { nameof(refId), refId },
+                    }));
+
+            if (capture.Outcome == OutcomeType.Failure)
+            {
+                throw capture.FinalException;
+            }
 
             return capture.Result;
         }
@@ -128,26 +188,46 @@ namespace Dejavoo.Spin.Sdk
             var partialResponse = JsonConvert.DeserializeObject<Partial<dynamic>>(response.Content);
 
             GeneralResponse generalResponse = partialResponse.GeneralResponse;
-            if (generalResponse.ResultCode == "0")
+            if (generalResponse.StatusCode < 1000)
             {
                 return null;
             }
 
             return apiMethod switch
             {
-                "RegisterSale" => null,
-                "RegisterVoid" => null,
-                "RegisterTipAdjust" => null,
-                "RegisterReturn" => null,
+                "RegisterSale" => ThrowHelper.ThrowByCode(partialResponse.GeneralResponse.StatusCode),
+                "RegisterVoid" => ThrowHelper.ThrowByCode(partialResponse.GeneralResponse.StatusCode),
+                "RegisterTipAdjust" => ThrowHelper.ThrowByCode(partialResponse.GeneralResponse.StatusCode),
+                "RegisterReturn" => ThrowHelper.ThrowByCode(partialResponse.GeneralResponse.StatusCode),
+                "RegisterStatus" => ThrowHelper.ThrowByCode(partialResponse.GeneralResponse.StatusCode),
                 _ => throw new ArgumentOutOfRangeException(nameof(apiMethod)),
             };
         }
 
-        private static IAsyncPolicy CreateRetryPolicy() =>
-            Policy.Handle<ExecutorException>(exception => exception.IsRecoverable)
-                .WaitAndRetryAsync(
-                    5,
-                    attempt => TimeSpan.FromSeconds(1),
-                    (exception, span) => { });
+        private IAsyncPolicy<T> GetOrCreateRetryPolicy<T>() =>
+            (IAsyncPolicy<T>)Policies.GetOrAdd(
+                typeof(T),
+                _ => Policy<T>
+                    .Handle<ExecutorException>(exception => exception.IsRecoverable)
+                    .WaitAndRetryAsync(
+                        MaxRetryCount,
+                        attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)),
+                        async (exception, span, context) =>
+                        {
+                            Debug.WriteLine($"Exception occured, retrying {exception} {span}");
+                            {
+                                var statusRequest = new StatusRequestContract(
+                                    paymentType: StatusRequestContract.PaymentTypeEnum.Card, // ToDo: pass via context
+                                    referenceId: context.OperationKey,
+                                    tpn: _tpn,
+                                    authkey: _authKey);
+
+                                BasePaymentResponseContract response = await _api.RegisterStatusAsync(statusRequest);
+                                _requestsInFlights.AddOrUpdate(
+                                    context.OperationKey,
+                                    _ => response,
+                                    (_, _) => response);
+                            }
+                        }));
     }
 }

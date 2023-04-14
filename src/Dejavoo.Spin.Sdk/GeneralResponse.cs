@@ -6,7 +6,7 @@ namespace Dejavoo.Spin.Sdk
     {
         [JsonProperty(nameof(ResultCode))] public string ResultCode { get; set; }
 
-        [JsonProperty(nameof(StatusCode))] public string StatusCode { get; set; }
+        [JsonProperty(nameof(StatusCode))] public int StatusCode { get; set; }
 
         [JsonProperty(nameof(Message))] public string Message { get; set; }
 
