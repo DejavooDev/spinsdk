@@ -7,6 +7,8 @@ using Dejavoo.Spin.Sdk.Client.Api;
 using Dejavoo.Spin.Sdk.Client.Client;
 using Dejavoo.Spin.Sdk.Client.Model;
 using Dejavoo.Spin.Sdk.Methods;
+using Dejavoo.Spin.Sdk.Options;
+using Dejavoo.Spin.Sdk.Options.Definitions;
 using Mapster;
 using Newtonsoft.Json;
 using Polly;
@@ -27,13 +29,16 @@ namespace Dejavoo.Spin.Sdk
         private readonly string _authKey;
         private readonly string _tpn;
 
+        private readonly int _apiTimeoutSeconds;
+
         private readonly ConcurrentDictionary<string, object> _requestsInFlights;
 
-        private ApiOperationExecutor(IRegisterApi api, string authKey, string tpn)
+        private ApiOperationExecutor(IRegisterApi api, string authKey, string tpn, int apiTimeoutSeconds)
         {
             _api = api;
             _authKey = authKey;
             _tpn = tpn;
+            _apiTimeoutSeconds = apiTimeoutSeconds;
 
             _requestsInFlights = new ConcurrentDictionary<string, object>();
         }
@@ -47,7 +52,8 @@ namespace Dejavoo.Spin.Sdk
                 paymentType: (SaleRequestContract.PaymentTypeEnum)sale.PaymentType,
                 referenceId: refId,
                 tpn: _tpn,
-                authkey: _authKey);
+                authkey: _authKey,
+                sPInProxyTimeout: _apiTimeoutSeconds);
 
             BasePaymentResponseContract response = await ResilientExecuteAsync(
                 () => _api.RegisterSaleAsync(saleRequestContract),
@@ -65,7 +71,8 @@ namespace Dejavoo.Spin.Sdk
                 paymentType: (VoidRequestContract.PaymentTypeEnum)@void.PaymentType,
                 referenceId: refId,
                 tpn: _tpn,
-                authkey: _authKey);
+                authkey: _authKey,
+                sPInProxyTimeout: _apiTimeoutSeconds);
 
             BasePaymentResponseContract response = await ResilientExecuteAsync(
                 () => _api.RegisterVoidAsync(voidRequestContract),
@@ -81,7 +88,8 @@ namespace Dejavoo.Spin.Sdk
             var settleRequestContract = new SettleRequestContract(
                 referenceId: refId,
                 tpn: _tpn,
-                authkey: _authKey);
+                authkey: _authKey,
+                sPInProxyTimeout: _apiTimeoutSeconds);
 
             SettleResponseContract response = await ResilientExecuteAsync(
                 () => _api.RegisterSettleAsync(settleRequestContract),
@@ -99,7 +107,8 @@ namespace Dejavoo.Spin.Sdk
                 paymentType: (ReturnRequestContract.PaymentTypeEnum)@return.PaymentType,
                 referenceId: refId,
                 tpn: _tpn,
-                authkey: _authKey);
+                authkey: _authKey,
+                sPInProxyTimeout: _apiTimeoutSeconds);
 
             BasePaymentResponseContract response = await ResilientExecuteAsync(
                 () => _api.RegisterReturnAsync(returnRequestContract),
@@ -118,7 +127,8 @@ namespace Dejavoo.Spin.Sdk
                 paymentType: (TipAdjustRequestContract.PaymentTypeEnum)tipAdjust.PaymentType,
                 referenceId: refId,
                 tpn: _tpn,
-                authkey: _authKey);
+                authkey: _authKey,
+                sPInProxyTimeout: _apiTimeoutSeconds);
 
             BasePaymentResponseContract response = await ResilientExecuteAsync(
                 () => _api.RegisterTipAdjustAsync(tipAdjustRequestContract),
@@ -133,7 +143,8 @@ namespace Dejavoo.Spin.Sdk
                 paymentType: (StatusRequestContract.PaymentTypeEnum)status.PaymentType,
                 referenceId: status.ReferenceId,
                 tpn: _tpn,
-                authkey: _authKey);
+                authkey: _authKey,
+                sPInProxyTimeout: _apiTimeoutSeconds);
 
             BasePaymentResponseContract response = await ResilientExecuteAsync(
                 () => _api.RegisterStatusAsync(statusRequestContract),
@@ -166,11 +177,21 @@ namespace Dejavoo.Spin.Sdk
             return capture.Result;
         }
 
-        public static IOperationExecutor Create(string baseUri, string authKey, string tpn)
+        public static IOperationExecutor Create(IOptionsAccessor optionsAccessor)
         {
+            T GetOption<T>(bool required = true) where T : IOption
+            {
+                var exists = optionsAccessor.TryGetOption(out T o);
+
+                return required && !exists ? throw ThrowHelper.ThrowMissingRequiredConfiguration(typeof(T).Name) : o;
+            }
+
+            ApiAccessOptions apiAccessOptions = GetOption<ApiAccessOptions>();
+            AuthenticationOptions authenticationOptions = GetOption<AuthenticationOptions>();
+            
             var config = Configuration.Default;
             {
-                config.BasePath = baseUri;
+                config.BasePath = apiAccessOptions.BaseUrl;
             }
 
             var registerApi = new RegisterApi(config);
@@ -178,7 +199,14 @@ namespace Dejavoo.Spin.Sdk
                 registerApi.ExceptionFactory = ExceptionFactory;
             }
             
-            return new ApiOperationExecutor(registerApi, authKey, tpn);
+            TimeoutOptions timeoutOptions = GetOption<TimeoutOptions>(false);
+            var timeoutSeconds = timeoutOptions == null ? 100 : (int)timeoutOptions.Timeout.TotalSeconds;
+
+            return new ApiOperationExecutor(
+                registerApi,
+                authenticationOptions.AuthKey,
+                authenticationOptions.Tpn,
+                timeoutSeconds);
         }
 
         private static readonly Func<string> ReferenceIdFactory = () => Guid.NewGuid().ToString("N");
@@ -220,7 +248,8 @@ namespace Dejavoo.Spin.Sdk
                                     paymentType: StatusRequestContract.PaymentTypeEnum.Card,
                                     referenceId: context.OperationKey,
                                     tpn: _tpn,
-                                    authkey: _authKey);
+                                    authkey: _authKey,
+                                    sPInProxyTimeout: _apiTimeoutSeconds);
 
                                 BasePaymentResponseContract response = await _api.RegisterStatusAsync(statusRequest);
                                 _requestsInFlights.AddOrUpdate(
