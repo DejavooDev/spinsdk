@@ -177,7 +177,7 @@ namespace Dejavoo.Spin.Sdk
             {
                 registerApi.ExceptionFactory = ExceptionFactory;
             }
-
+            
             return new ApiOperationExecutor(registerApi, authKey, tpn);
         }
 
@@ -217,7 +217,7 @@ namespace Dejavoo.Spin.Sdk
                             Debug.WriteLine($"Exception occured, retrying {exception} {span}");
                             {
                                 var statusRequest = new StatusRequestContract(
-                                    paymentType: StatusRequestContract.PaymentTypeEnum.Card, // ToDo: pass via context
+                                    paymentType: StatusRequestContract.PaymentTypeEnum.Card,
                                     referenceId: context.OperationKey,
                                     tpn: _tpn,
                                     authkey: _authKey);
