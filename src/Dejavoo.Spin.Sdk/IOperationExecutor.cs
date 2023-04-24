@@ -14,5 +14,7 @@ namespace Dejavoo.Spin.Sdk
         Task<ReturnResponse> Execute(Return @return);
         
         Task<TipAdjustResponse> Execute(TipAdjust tipAdjust);
+        
+        Task<StatusResponse> Execute(Status status);
     }
 }
