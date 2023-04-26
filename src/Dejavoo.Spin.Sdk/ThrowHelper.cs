@@ -3,7 +3,15 @@ using System.Collections.Generic;
 
 namespace Dejavoo.Spin.Sdk
 {
-    public class ExecutorException : Exception
+    public sealed class ExecutorConfigurationException : Exception
+    {
+        public ExecutorConfigurationException(string message)
+            : base(message)
+        {
+        }
+    }
+    
+    public sealed class ExecutorException : Exception
     {
         internal ExecutorException(ErrorCode code, bool isRecoverable)
         {
@@ -82,5 +90,8 @@ namespace Dejavoo.Spin.Sdk
 
             return new ExecutorException((ErrorCode)code, RecoverableCodes.Contains(code));
         }
+
+        internal static Exception ThrowMissingRequiredConfiguration(string reason) => 
+            new ExecutorConfigurationException($"Missing required configuration {reason}");
     }
 }

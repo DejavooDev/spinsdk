@@ -195,6 +195,16 @@ namespace Dejavoo.Spin.Sdk.UnitTests
             await act.Should().ThrowExactlyAsync<ExecutorException>();
         }
 
+        [Test]
+        public void MisconfiguredOption_ThrowException()
+        {
+            // Arrange & Act
+            Action a = () => Spin.V2Test.CreateExecutor("", "buzz");
+
+            // Assert
+            a.Should().ThrowExactly<InvalidOperationException>();
+        }
+
         private static IOperationExecutor CreateTarget() =>
             Spin.V2Test.CreateExecutor("0922161235", "fVScy1RJkF");
     }
