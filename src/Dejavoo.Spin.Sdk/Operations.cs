@@ -15,5 +15,8 @@ namespace Dejavoo.Spin.Sdk
             new TipAdjust(amount, last4, paymentType);
 
         public static IOperation<VoidResponse> Void(double amount, PaymentType paymentType) => new Void(amount, paymentType);
+
+        public static IOperation<StatusResponse> Status(string referenceId, PaymentType paymentType) =>
+            new Status(paymentType, referenceId);
     }
 }

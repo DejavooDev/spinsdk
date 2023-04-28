@@ -14,6 +14,7 @@ namespace Dejavoo.Spin.Sdk
     public sealed class ExecutorException : Exception
     {
         internal ExecutorException(ErrorCode code, bool isRecoverable)
+            : base($"Error: {(int)code} {code}")
         {
             Code = code;
             IsRecoverable = isRecoverable;
